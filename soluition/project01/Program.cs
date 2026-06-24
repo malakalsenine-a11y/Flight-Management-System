@@ -128,50 +128,7 @@ namespace project01
 
         public static void ViewAllFlights()
         {
-            Console.WriteLine("\n=== Add flights ===");
-
-            Console.WriteLine("Enter flight code: ");
-            string codeFlight = Console.ReadLine();
-            Console.WriteLine("Enter aircraft id: ");
-            int idAircraft = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter pilot id: ");
-            int idPilot = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter origin: ");
-            string origin = Console.ReadLine();
-            Console.WriteLine("Enter destination: ");
-            string destination = Console.ReadLine();
-            Console.WriteLine("Enter departureDate: ");
-            string dateDeparture = Console.ReadLine();
-            Console.WriteLine("Enter departureTime: ");
-            string timeDeparture = Console.ReadLine();
-            Console.WriteLine("Enter ticketPrice: ");
-            decimal priceTicket = decimal.Parse(Console.ReadLine());
-            Console.WriteLine("Enter available Seats: ");
-            int seatsAvailable = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter flightDuration: ");
-            int durationFlight = int.Parse(Console.ReadLine());
-
-            int idFlight = context.flights.Count + 1;
-
-            context.flights.Add(new Flight
-            {
-                flightId = idFlight,
-                flightCode = codeFlight,
-                aircraftId = idAircraft,
-                pilotId = idPilot,
-                origin = origin,
-                destination = destination,
-                departureDate = dateDeparture,
-                departureTime = timeDeparture,
-                ticketPrice = priceTicket,
-                availableSeats = seatsAvailable,
-                flightDuration = durationFlight,
-                status = "Scheduled"
-            });
-
-            Console.WriteLine($" add flights successfully with flight ID: {idFlight}");
-
-
+            
             Console.WriteLine("\n=== View all flights ===");
 
             foreach (Flight F in context.flights)
@@ -200,28 +157,72 @@ namespace project01
         {
             Console.WriteLine("\n=== Add Schedule flights ===");
 
-            //Console.WriteLine("Enter flight code: ");
-            Console.WriteLine("Enter aircraft id: ");
-            int idAircraft = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter pilot id: ");
-            int idPilot = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter origin: ");
             string origin = Console.ReadLine();
+
             Console.WriteLine("Enter destination: ");
             string destination = Console.ReadLine();
+
             Console.WriteLine("Enter departureDate: ");
             string dateDeparture = Console.ReadLine();
+
             Console.WriteLine("Enter departureTime: ");
             string timeDeparture = Console.ReadLine();
+
             Console.WriteLine("Enter ticketPrice: ");
             decimal priceTicket = decimal.Parse(Console.ReadLine());
 
-
+            // ---- Automatically generate flight number & Code: -----
             int idFlight = context.flights.Count + 1;
-            string codeFlight = "FL" + idFlight;
+            string codeFlight = "OA - " + idFlight;
 
+            // ---- Show all Aircraft in system: -----
 
-            // لحساب المقاعد
+            Console.WriteLine("\n ==== Available Aircrafts: === ");
+
+            foreach (Aircraft a in context.aircrafts)
+            {
+                if (a.isOperational)
+                {
+                    Console.WriteLine($"ID: {a.aircraftId} | Model: {a.model}");
+                }
+            }
+
+            // ---- choose aircraft id: -----
+            Console.WriteLine("Enter aircraft id: ");
+            int idAircraft = int.Parse(Console.ReadLine());
+
+        
+
+            // ---- Show all pilot in system: -----
+
+            foreach (Pilot P in context.pilots)
+                //.Where(P => P.isAvailable )) 
+            {
+                if (P.isAvailable)
+                {
+                    Console.WriteLine($"ID: {P.pilotId} ");
+
+                }
+            }
+
+            // ---- choose pilot id: -----
+
+            Console.WriteLine("Enter pilot id: ");
+            int idPilot = int.Parse(Console.ReadLine());
+
+            // للتحقق من وجود الطيار  وهل فاضي او لا 
+            Pilot pilot = context.pilots
+                .FirstOrDefault(P => P.pilotId == idPilot);
+
+            if (pilot == null || !pilot.isAvailable)
+            {
+                Console.WriteLine("Invalid  Pilot");
+                return;
+            }
+
+            // للتحقق من وجود الطائرة 
+
             var aircraft = context.aircrafts
                 .FirstOrDefault(a => a.aircraftId == idAircraft);
 
@@ -231,27 +232,8 @@ namespace project01
                 return;
             }
 
-            //// لحساب عدد ساعات الطيران
-            static int CalculateDuration(string origin, string destination)
-            {
-                if (origin.ToLower() == "Muscat" && destination.ToLower() == "Dubai")
-                    return 2;
-
-                return 3;
-            }
-            // للتحقق من وجود الطيار 
-            var pilot = context.pilots
-                .FirstOrDefault(P => P.pilotId == idPilot);
-
-            if (pilot == null || !pilot.isAvailable)
-            {
-                Console.WriteLine("Invalid  Pilot");
-                return;
-            }
-
-
-
-            int flightDuration = CalculateDuration(origin, destination);
+            
+        // المقاعد تجي من الطائرة مباشرة
             int seatsAvailable = aircraft.totalSeats;
 
 
@@ -267,9 +249,9 @@ namespace project01
                 departureTime = timeDeparture,
                 ticketPrice = priceTicket,
                 availableSeats = seatsAvailable,
-                flightDuration = flightDuration,
                 status = "Scheduled"
             });
+
 
             pilot.isAvailable = false;
 
