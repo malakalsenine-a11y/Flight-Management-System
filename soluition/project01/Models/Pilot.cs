@@ -8,5 +8,12 @@ namespace project01.Models
 {
     public class Pilot
     {
+        public int pilotId { get; set; } //Generated
+        public string pilotName { get; set; } // User Input
+        public string pilotPhone { get; set; } //User Input
+        public string licenseNumber { get; set; } // User Input
+        public int flightHours { get; set; } //Calcualted
+        public bool isAvailable { get; set; } //Default Value
+
     }
 }
