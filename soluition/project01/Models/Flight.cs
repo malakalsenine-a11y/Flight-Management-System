@@ -17,8 +17,8 @@ namespace project01.Models
         public string departureDate { get; set; } //User Input
         public string departureTime { get; set; } //User Input
         public decimal ticketPrice { get; set; } //User Input
-        public int availableSeats { get; set; } //user input
+        public int availableSeats { get; set; } //Default value 
         public string status { get; set; } // Default Value
-        public string flightDuration { get; set; } //Calculated
+        public int flightDuration { get; set; } //Calculated
     }
 }

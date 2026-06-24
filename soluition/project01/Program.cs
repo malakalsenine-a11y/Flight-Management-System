@@ -19,6 +19,11 @@ namespace project01
 
         };
 
+        //// =======================----------=====================
+        ////              **** Easy — Straightforward CRUD ****
+        //// =======================----------=====================
+
+
         // =======================================================
         //              **** Register Passenger (CRUD) ****
         // =======================================================
@@ -121,7 +126,7 @@ namespace project01
         ////              **** Add Flights (CRUD) ****
         //// =======================================================
 
-        public static void AddFlights()
+        public static void ViewAllFlights()
         {
             Console.WriteLine("\n=== Add flights ===");
 
@@ -144,7 +149,7 @@ namespace project01
             Console.WriteLine("Enter available Seats: ");
             int seatsAvailable = int.Parse(Console.ReadLine());
             Console.WriteLine("Enter flightDuration: ");
-            string durationFlight = Console.ReadLine();
+            int durationFlight = int.Parse(Console.ReadLine());
 
             int idFlight = context.flights.Count + 1;
 
@@ -167,24 +172,120 @@ namespace project01
             Console.WriteLine($" add flights successfully with flight ID: {idFlight}");
 
 
-        }
-
-        //// =======================================================
-        ////              **** View All Flights (CRUD) ****
-        //// =======================================================
-        public static void ViewAllFlights()
-        {
-
             Console.WriteLine("\n=== View all flights ===");
 
-            foreach(Flight F in context.flights)
+            foreach (Flight F in context.flights)
             {
-                Console.WriteLine($" Flight ID: {F.flightId}  |  Code: {F.flightCode}  |  Aircraft ID: {F.aircraftId}"  +
-                                  $" | Pilot ID: {F.pilotId}  |  Origin: {F.origin}  |  Destination: {F.destination} "  +
+                Console.WriteLine($" Flight ID: {F.flightId}  |  Code: {F.flightCode}  |  Aircraft ID: {F.aircraftId}" +
+                                  $" | Pilot ID: {F.pilotId}  |  Origin: {F.origin}  |  Destination: {F.destination} " +
                                   $" | DepartureDate: {F.departureDate}  | DepartureTime: {F.departureTime}  |  TicketPrice: {F.ticketPrice}   " +
                                   $" | AvailableSeats:{F.availableSeats}  |  FlightDuration: {F.flightDuration}  |  Status: {F.status}");
             }
+
         }
+
+
+        //// =======================----------=====================
+        ////             Medium — Logic & Cross-Entity Operations
+        //// =======================----------=====================
+        
+
+
+
+        //// =======================================================
+        ////              **** Schedule Flights ****
+        //// =======================================================
+
+        public static void ScheduleFlight()
+        {
+            Console.WriteLine("\n=== Add Schedule flights ===");
+
+            //Console.WriteLine("Enter flight code: ");
+            Console.WriteLine("Enter aircraft id: ");
+            int idAircraft = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter pilot id: ");
+            int idPilot = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter origin: ");
+            string origin = Console.ReadLine();
+            Console.WriteLine("Enter destination: ");
+            string destination = Console.ReadLine();
+            Console.WriteLine("Enter departureDate: ");
+            string dateDeparture = Console.ReadLine();
+            Console.WriteLine("Enter departureTime: ");
+            string timeDeparture = Console.ReadLine();
+            Console.WriteLine("Enter ticketPrice: ");
+            decimal priceTicket = decimal.Parse(Console.ReadLine());
+
+
+            int idFlight = context.flights.Count + 1;
+            string codeFlight = "FL" + idFlight;
+
+
+            // لحساب المقاعد
+            var aircraft = context.aircrafts
+                .FirstOrDefault(a => a.aircraftId == idAircraft);
+
+            if (aircraft == null || !aircraft.isOperational)
+            {
+                Console.WriteLine("Invalid  Aircraft");
+                return;
+            }
+
+            //// لحساب عدد ساعات الطيران
+            static int CalculateDuration(string origin, string destination)
+            {
+                if (origin.ToLower() == "Muscat" && destination.ToLower() == "Dubai")
+                    return 2;
+
+                return 3;
+            }
+            // للتحقق من وجود الطيار 
+            var pilot = context.pilots
+                .FirstOrDefault(P => P.pilotId == idPilot);
+
+            if (pilot == null || !pilot.isAvailable)
+            {
+                Console.WriteLine("Invalid  Pilot");
+                return;
+            }
+
+
+
+            int flightDuration = CalculateDuration(origin, destination);
+            int seatsAvailable = aircraft.totalSeats;
+
+
+            context.flights.Add(new Flight
+            {
+                flightId = idFlight,
+                flightCode = codeFlight,
+                aircraftId = idAircraft,
+                pilotId = idPilot,
+                origin = origin,
+                destination = destination,
+                departureDate = dateDeparture,
+                departureTime = timeDeparture,
+                ticketPrice = priceTicket,
+                availableSeats = seatsAvailable,
+                flightDuration = flightDuration,
+                status = "Scheduled"
+            });
+
+            pilot.isAvailable = false;
+
+            Console.WriteLine($" add flights successfully with flight ID: {idFlight}");
+
+
+        }
+       
+
+
+
+
+
+
+
+
 
 
 
