@@ -112,21 +112,79 @@ namespace project01
                 licenseNumber = numberLicense,
                 isAvailable = true
             });
+
+            Console.WriteLine($"register pilot successfully with Pilot ID: {idPilot}");
+
+        }
+
+        //// =======================================================
+        ////              **** Add Flights (CRUD) ****
+        //// =======================================================
+
+        public static void AddFlights()
+        {
+            Console.WriteLine("\n=== Add flights ===");
+
+            Console.WriteLine("Enter flight code: ");
+            string codeFlight = Console.ReadLine();
+            Console.WriteLine("Enter aircraft id: ");
+            int idAircraft = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter pilot id: ");
+            int idPilot = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter origin: ");
+            string origin = Console.ReadLine();
+            Console.WriteLine("Enter destination: ");
+            string destination = Console.ReadLine();
+            Console.WriteLine("Enter departureDate: ");
+            string dateDeparture = Console.ReadLine();
+            Console.WriteLine("Enter departureTime: ");
+            string timeDeparture = Console.ReadLine();
+            Console.WriteLine("Enter ticketPrice: ");
+            decimal priceTicket = decimal.Parse(Console.ReadLine());
+            Console.WriteLine("Enter available Seats: ");
+            int seatsAvailable = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter flightDuration: ");
+            string durationFlight = Console.ReadLine();
+
+            int idFlight = context.flights.Count + 1;
+
+            context.flights.Add(new Flight
+            {
+                flightId = idFlight,
+                flightCode = codeFlight,
+                aircraftId = idAircraft,
+                pilotId = idPilot,
+                origin = origin,
+                destination = destination,
+                departureDate = dateDeparture,
+                departureTime = timeDeparture,
+                ticketPrice = priceTicket,
+                availableSeats = seatsAvailable,
+                flightDuration = durationFlight,
+                status = "Scheduled"
+            });
+
+            Console.WriteLine($" add flights successfully with flight ID: {idFlight}");
+
+
         }
 
         //// =======================================================
         ////              **** View All Flights (CRUD) ****
         //// =======================================================
-        //public static void ViewAllFlights()
-        //{
-        //    Console.WriteLine("\n=== View all flights ===");
+        public static void ViewAllFlights()
+        {
 
-        //}
+            Console.WriteLine("\n=== View all flights ===");
 
-
-
-
-
+            foreach(Flight F in context.flights)
+            {
+                Console.WriteLine($" Flight ID: {F.flightId}  |  Code: {F.flightCode}  |  Aircraft ID: {F.aircraftId}"  +
+                                  $" | Pilot ID: {F.pilotId}  |  Origin: {F.origin}  |  Destination: {F.destination} "  +
+                                  $" | DepartureDate: {F.departureDate}  | DepartureTime: {F.departureTime}  |  TicketPrice: {F.ticketPrice}   " +
+                                  $" | AvailableSeats:{F.availableSeats}  |  FlightDuration: {F.flightDuration}  |  Status: {F.status}");
+            }
+        }
 
 
 
