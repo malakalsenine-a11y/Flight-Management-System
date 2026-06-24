@@ -59,30 +59,30 @@ namespace project01
         // =======================================================
         //              **** Add an Aircraft (CRUD) ****
         // =======================================================
-        //public static void AddAircraft()
-        //{
-        //    Console.WriteLine("\n=== Add an Aircraft ===");
+        public static void AddAircraft()
+        {
+            Console.WriteLine("\n=== Add an Aircraft ===");
 
-        //    Console.WriteLine("Enter Aircraft Model: ");
-        //    string model = Console.ReadLine();
+            Console.WriteLine("Enter Aircraft Model: ");
+            string model = Console.ReadLine();
 
-        //    Console.WriteLine("Enter Total Seats: ");
-        //    int totalSeats = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter Total Seats: ");
+            int totalSeats = int.Parse(Console.ReadLine());
 
-        //    int idAircraft = context.aircrafts.Count + 1;
+            int idAircraft = context.aircrafts.Count + 1;
 
-        //    context.aircrafts.Add(new Aircraft
-        //    {
-        //        aircraftId = idAircraft,
-        //        model = model,
-        //        totalSeats = totalSeats,
-        //        isOperational = true
-        //    });
+            context.aircrafts.Add(new Aircraft
+            {
+                aircraftId = idAircraft,
+                model = model,
+                totalSeats = totalSeats,
+                isOperational = true
+            });
 
-        //    Console.WriteLine($"Aircraft add successfully with aircraftId: {idAircraft}");
+            Console.WriteLine($"Aircraft add successfully with aircraftId: {idAircraft}");
 
 
-        //}
+        }
 
         // =======================================================
         //              **** Register a Pilot (CRUD) ****
