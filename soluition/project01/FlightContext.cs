@@ -13,7 +13,7 @@ namespace project01
         public List<Passenger> passengers { get; set; }
         public List<Flight> flights { get; set; }
         public List<Booking> bookings { get; set; }
-        public List<Aircraft> aircraft { get; set; }
+        public List<Aircraft> aircrafts { get; set; }
 
 
 
