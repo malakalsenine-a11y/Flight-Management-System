@@ -87,30 +87,31 @@ namespace project01
         // =======================================================
         //              **** Register a Pilot (CRUD) ****
         // =======================================================
-        //public static void RegisterPilot()
-        //{
-        //    Console.WriteLine("\n=== Register a pilot: ===");
+        public static void RegisterPilot()
+        {
+            Console.WriteLine("\n=== Register a pilot: ===");
 
 
-        //    Console.Write("Enter Pilot Name: ");
-        //    string namePilot = Console.ReadLine();
-        //    Console.Write("Enter Pilot Phone : ");
-        //    string phonePilot = Console.ReadLine();
-        //    Console.Write("Enter License Number: ");
-        //    string numberLicense = Console.ReadLine();
-        //    Console.WriteLine("Enter flight Hours: ");
-        //    int hoursFlight = int.Parse(Console.ReadLine());
+            Console.Write("Enter Pilot Name: ");
+            string namePilot = Console.ReadLine();
+            Console.Write("Enter Pilot Phone : ");
+            string phonePilot = Console.ReadLine();
+            Console.Write("Enter License Number: ");
+            string numberLicense = Console.ReadLine();
+            Console.WriteLine("Enter flight Hours: ");
+            int hoursFlight = int.Parse(Console.ReadLine());
 
-        //    int idPilot = context.pilots.Count + 1;
+            int idPilot = context.pilots.Count + 1;
 
-        //    context.pilots.Add(new Pilot {
-        //        pilotId = idPilot,
-        //        pilotName = namePilot,
-        //        pilotPhone = phonePilot,
-        //        licenseNumber = numberLicense,
-        //    isAvailable = true
-        //    });
-        //}
+            context.pilots.Add(new Pilot
+            {
+                pilotId = idPilot,
+                pilotName = namePilot,
+                pilotPhone = phonePilot,
+                licenseNumber = numberLicense,
+                isAvailable = true
+            });
+        }
 
         //// =======================================================
         ////              **** View All Flights (CRUD) ****
