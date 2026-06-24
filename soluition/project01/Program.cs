@@ -223,7 +223,7 @@ namespace project01
 
             // للتحقق من وجود الطائرة 
 
-            var aircraft = context.aircrafts
+            Aircraft aircraft = context.aircrafts
                 .FirstOrDefault(a => a.aircraftId == idAircraft);
 
             if (aircraft == null || !aircraft.isOperational)
@@ -259,7 +259,29 @@ namespace project01
 
 
         }
-       
+
+        //// =======================================================
+        ////              **** Book a Flights ****
+        //// =======================================================
+
+        public static void BookFlight()
+        {
+            Console.WriteLine("Enter Passenger ID:");
+            int idPassenger = int.Parse(Console.ReadLine());
+
+
+            // اتاكد من ID 
+            Passenger passenger = context.passengers
+                .FirstOrDefault(p => p.passengerId == idPassenger);
+
+            if (passenger == null ) ;
+            {
+                Console.WriteLine("Invalid Passenger.");
+                return;
+            }
+
+
+        }
 
 
 
