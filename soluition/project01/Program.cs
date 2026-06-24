@@ -92,6 +92,7 @@ namespace project01
             Console.WriteLine("\n=== Register a pilot: ===");
 
 
+
             Console.Write("Enter Pilot Name: ");
             string namePilot = Console.ReadLine();
             Console.Write("Enter Pilot Phone : ");
