@@ -505,6 +505,58 @@ namespace project01
         
         public static void PassengerBookingHistory()
         {
+            Console.WriteLine("\n=== Passenger Booking History ===");
+
+            // Enter passenger id:
+            Console.WriteLine("Enter passenger id: ");
+            int idpassenger = int.Parse(Console.ReadLine());
+
+            // Check passenger exists:
+            Passenger passenger = context.passengers
+                .FirstOrDefault(p => p.passengerId == idpassenger);
+
+            if (passenger == null)
+            {
+                Console.WriteLine("Invalid passenger.");
+                return;
+            }
+
+            // Get all bookings for this passenger:
+            var bookings = context.bookings
+                .Where(b => b.passengerId == idpassenger);
+
+            // Total money spent on confirmed bookings:
+            decimal totalSpent = 0;
+
+            // Show booking history:
+            foreach (Booking b in bookings)
+            {
+                // Get flight details:
+                Flight flight = context.flights
+                     .FirstOrDefault(f => f.flightId == b.flightId);
+
+
+
+                // Add confirmed booking price only:
+                if (b.status == "Confirmed")
+                {
+                    totalSpent += b.totalPrice;  // يجمع الحجوزات المؤكدة
+                }
+
+
+                Console.WriteLine(  $"Flight Code is: {flight.flightCode}   | " +
+                                    $"  Origin: {flight.origin}   | " +
+                                    $" Destination: {flight.destination} " +
+                                    $"Departure date: {flight.departureDate}   |  " +
+                                    $" Seat number: {b.seatNumber}   |  " +
+                                    $" Price paid: {b.totalPrice} " +
+                                    $"Booking status:  {b.status} "
+                                  );
+            }
+
+            Console.WriteLine($"Total Spent: {totalSpent}");
+
+
 
         }
 
@@ -589,5 +641,4 @@ namespace project01
         }
     }
 }
-
 
