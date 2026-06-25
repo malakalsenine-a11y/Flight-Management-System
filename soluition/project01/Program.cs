@@ -274,13 +274,71 @@ namespace project01
             Passenger passenger = context.passengers
                 .FirstOrDefault(p => p.passengerId == idPassenger);
 
-            if (passenger == null ) ;
+            if (passenger == null ) 
             {
                 Console.WriteLine("Invalid Passenger.");
                 return;
             }
 
+            // Choose destination:
+            Console.WriteLine(" Choose destination:");
+            string selectedDestination = Console.ReadLine();
 
+
+            //View all destination is available:
+
+            Console.WriteLine("\n ==== Available destination: === ");
+
+
+            foreach (Flight d in context.flights)
+            {
+                if (d.status == "Scheduled" && 
+                    d.destination == selectedDestination &&
+                    d.availableSeats > 0)
+                {
+                    Console.WriteLine($" Flights ID: {d.flightId}    |    Code: {d.flightCode} " +
+                                 $"The Status: {d.status}    |   Destination: {d.destination} " +
+                                 $"Available Seat: {d.availableSeats} ");
+                }
+            
+            }
+
+
+            Console.WriteLine(" Select flight: ");
+            int idFlight = int.Parse (Console.ReadLine());
+
+            Flight flight = context.flights
+                    .FirstOrDefault(F => F.flightId == idFlight);
+
+
+            if (flight == null ||
+                flight.status != "Scheduled" ||
+                flight.availableSeats <= 0)
+            {
+                Console.WriteLine("Invalid Flight");
+                return;
+            }
+
+            Console.WriteLine("Enter Booking data:");
+            string dateBooking = Console.ReadLine();
+
+
+            int idBooking = context.bookings.Count + 1;
+
+            context.bookings.Add(new Booking
+            {
+                bookingId = idBooking,
+                passengerId = idPassenger,
+                flightId = idFlight,
+                seatNumber =  flight.availableSeats + "A" ,
+                bookingDate = dateBooking,
+                totalPrice = flight.ticketPrice,
+                status = "Confirmed"
+            });
+
+            flight.availableSeats--;
+
+            Console.WriteLine($"Booking created successfully. Booking ID: {idBooking}");
         }
 
 
