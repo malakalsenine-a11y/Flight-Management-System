@@ -382,10 +382,46 @@ namespace project01
         }
 
 
+        //// =======================================================
+        ////              **** Depart a Flight ****
+        //// =======================================================
+
+        public static void DepartFlight()
+        {
+
+            //Enter flight id:
+            Console.WriteLine("Enter flight id: ");
+            int id = int.Parse(Console.ReadLine());
 
 
+            Flight flight = context.flights
+                         .FirstOrDefault(Y => Y.flightId == id);
+
+            if(flight == null)
+            {
+                Console.WriteLine("Invalid flight");
+                return;
+            }
+
+            flight.status = "Departed";
+
+         
+            Pilot pilot = context.pilots
+                .FirstOrDefault(f => f.pilotId == flight.pilotId);
 
 
+            if (pilot == null)
+            {
+                Console.WriteLine("Pilot not found");
+                return;
+            }
+
+            pilot.flightHours += flight.flightDuration;
+
+            Console.WriteLine("Flight departed successfully.");
+        }
+
+        
 
 
 
