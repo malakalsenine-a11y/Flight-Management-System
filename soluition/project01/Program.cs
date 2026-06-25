@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using project01.Models;
+using System.Numerics;
 using System.Threading.Channels;
 
 namespace project01
@@ -496,17 +497,95 @@ namespace project01
 
 
             Console.WriteLine($" Flight number: {flight.flightId} has been cancelled from all passenger in this flight.");
-            }
+        }
+
+        //// =======================================================
+        ////              ****   Passenger Booking History ****
+        //// =======================================================
         
+        public static void PassengerBookingHistory()
+        {
+
+        }
+
+        //// =======================================================
+        ////      ****   Flight Revenue & Load Factor Repor ****
+        //// =======================================================
+
+        public static void FlightRevenueAndLoadFactorRepor()
+        {
+
+        }
 
 
-        
-
-
-        
 
         static void Main(string[] args)
         {
+            bool exit = false;
+
+            while(exit == false)
+            {
+                Console.WriteLine("\n========================================");
+                Console.WriteLine("   Flight Management System");
+                Console.WriteLine("========================================");
+                Console.WriteLine(" 1  - Register Passenger");
+                Console.WriteLine(" 2  - Add Aircraft");
+                Console.WriteLine(" 3  - Register a Pilot");
+                Console.WriteLine(" 4  - Schedule a Flight");
+                Console.WriteLine(" 5  - View All Flights");
+                Console.WriteLine(" 6  - Book a Flight");
+                Console.WriteLine(" 7  - Cancel a Booking");
+                Console.WriteLine(" 8  - Depart a Flight");
+                Console.WriteLine(" 9  - Cancel a Flight");
+                Console.WriteLine(" 10 -  Passenger Booking History");
+                Console.WriteLine(" 11 -   Flight Revenue & Load Factor Report");
+                Console.WriteLine(" 0  - Exit");
+                Console.WriteLine("========================================");
+                Console.Write("Select option: ");
+
+                int option = int.Parse(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 1: RegisterPassenger(); break;
+
+                    case 2: AddAircraft(); break;
+
+                    case 3: RegisterPilot(); break;
+
+                    case 4: ScheduleFlight(); break;
+
+                    case 5: ViewAllFlights(); break;
+
+                    case 6: BookFlight(); break;
+
+                    case 7: CancelBooking(); break;
+
+                    case 8: DepartFlight(); break;
+
+                    case 9: CancelFlight(); break;
+
+                    case 10: PassengerBookingHistory(); break;
+
+                    case 11:; break;
+
+                    case 0: exit = true; break;
+
+                    default: Console.WriteLine("Invalid option. Please try again."); break;
+
+                }
+
+                if (!exit)
+                {
+                    Console.WriteLine("\nPress any key to continue...");
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            
+        }
+
+            Console.WriteLine("Goodbye!");
+
         }
     }
 }
