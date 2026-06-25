@@ -341,8 +341,45 @@ namespace project01
             Console.WriteLine($"Booking created successfully. Booking ID: {idBooking}");
         }
 
+        //// =======================================================
+        ////              **** Cancel a Booking ****
+        //// =======================================================
 
 
+        public static void CancelBooking()
+        {
+            Console.WriteLine("\n=== Cancel Booking ===");
+
+
+            // Enter id for cancelled
+            Console.WriteLine("Enter booking id:");
+            int bookingId = int.Parse(Console.ReadLine());
+
+            //check
+            Booking booking = context.bookings
+                  .FirstOrDefault(b => b.bookingId == bookingId);
+
+            if ( booking == null)
+            {
+                Console.WriteLine("Booking not found.");
+                return;
+
+            }
+
+
+
+            // Check and returned seat 
+            Flight flight = context.flights
+                            .FirstOrDefault(x => x.flightId == booking.flightId);
+                             flight.availableSeats++;
+
+
+            // now booking is cancelled 
+            booking.status = "Cancelled";
+
+            Console.WriteLine($" Booking {bookingId} has been cancelled and the time booking is now available again.");
+
+        }
 
 
 
