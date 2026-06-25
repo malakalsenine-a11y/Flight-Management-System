@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using project01.Models;
+using System.Threading.Channels;
 
 namespace project01
 {
@@ -128,7 +129,7 @@ namespace project01
 
         public static void ViewAllFlights()
         {
-            
+
             Console.WriteLine("\n=== View all flights ===");
 
             foreach (Flight F in context.flights)
@@ -145,7 +146,7 @@ namespace project01
         //// =======================----------=====================
         ////             Medium — Logic & Cross-Entity Operations
         //// =======================----------=====================
-        
+
 
 
 
@@ -192,12 +193,12 @@ namespace project01
             Console.WriteLine("Enter aircraft id: ");
             int idAircraft = int.Parse(Console.ReadLine());
 
-        
+
 
             // ---- Show all pilot in system: -----
 
             foreach (Pilot P in context.pilots)
-                //.Where(P => P.isAvailable )) 
+            //.Where(P => P.isAvailable )) 
             {
                 if (P.isAvailable)
                 {
@@ -232,8 +233,8 @@ namespace project01
                 return;
             }
 
-            
-        // المقاعد تجي من الطائرة مباشرة
+
+            // المقاعد تجي من الطائرة مباشرة
             int seatsAvailable = aircraft.totalSeats;
 
 
@@ -274,7 +275,7 @@ namespace project01
             Passenger passenger = context.passengers
                 .FirstOrDefault(p => p.passengerId == idPassenger);
 
-            if (passenger == null ) 
+            if (passenger == null)
             {
                 Console.WriteLine("Invalid Passenger.");
                 return;
@@ -292,7 +293,7 @@ namespace project01
 
             foreach (Flight d in context.flights)
             {
-                if (d.status == "Scheduled" && 
+                if (d.status == "Scheduled" &&
                     d.destination == selectedDestination &&
                     d.availableSeats > 0)
                 {
@@ -300,12 +301,12 @@ namespace project01
                                  $"The Status: {d.status}    |   Destination: {d.destination} " +
                                  $"Available Seat: {d.availableSeats} ");
                 }
-            
+
             }
 
 
             Console.WriteLine(" Select flight: ");
-            int idFlight = int.Parse (Console.ReadLine());
+            int idFlight = int.Parse(Console.ReadLine());
 
             Flight flight = context.flights
                     .FirstOrDefault(F => F.flightId == idFlight);
@@ -330,7 +331,7 @@ namespace project01
                 bookingId = idBooking,
                 passengerId = idPassenger,
                 flightId = idFlight,
-                seatNumber =  flight.availableSeats + "A" ,
+                seatNumber = flight.availableSeats + "A",
                 bookingDate = dateBooking,
                 totalPrice = flight.ticketPrice,
                 status = "Confirmed"
@@ -359,7 +360,7 @@ namespace project01
             Booking booking = context.bookings
                   .FirstOrDefault(b => b.bookingId == bookingId);
 
-            if ( booking == null)
+            if (booking == null)
             {
                 Console.WriteLine("Booking not found.");
                 return;
@@ -371,7 +372,7 @@ namespace project01
             // Check and returned seat 
             Flight flight = context.flights
                             .FirstOrDefault(x => x.flightId == booking.flightId);
-                             flight.availableSeats++;
+            flight.availableSeats++;
 
 
             // now booking is cancelled 
@@ -397,7 +398,7 @@ namespace project01
             Flight flight = context.flights
                          .FirstOrDefault(Y => Y.flightId == id);
 
-            if(flight == null)
+            if (flight == null)
             {
                 Console.WriteLine("Invalid flight");
                 return;
@@ -405,7 +406,7 @@ namespace project01
 
             flight.status = "Departed";
 
-         
+
             Pilot pilot = context.pilots
                 .FirstOrDefault(f => f.pilotId == flight.pilotId);
 
@@ -421,10 +422,82 @@ namespace project01
             Console.WriteLine("Flight departed successfully.");
         }
 
+
+        //// =======================----------=====================
+        ////       Hard — Aggregation & Multi-Step Business Logic
+        ////
+        //// =======================----------=====================
+
+
+
+
+        //// =======================================================
+        ////              ****  Cancel a Flight ****
+        //// =======================================================
+        public static void CancelFlight()
+        {
+            Console.WriteLine("\n=== Cancel Flight ===");
+
+
+            // show all flight
+            Console.WriteLine("This all Flight: ");
+            ViewAllFlights();
+
+            // flight id need canceled
+            Console.WriteLine("Enter Flight id needs to cancel:");
+            int idCancelFlight = int.Parse(Console.ReadLine());
+
+            //check
+            Flight flight = context.flights
+                  .FirstOrDefault(n => n.flightId == idCancelFlight);
+
+            if (flight == null)
+
+            {
+                Console.WriteLine("Invalid flight.");
+                return;
+            }
+
+            //chenge status from Scheduled to Cancelled
+            flight.status = "Cancelled";
+
+            //check flight in booking 
+            var bookings = context.bookings
+                .Where(b => b.flightId == flight.flightId);
+
+            int count = 0;
+
+            //chenge status from Confirmed to Cancelled
+            foreach (Booking b in bookings)
+            {
+                b.status = "Cancelled";
+                count++;  // عدد الحجوزات اللي بلغيها 
+            }
+
+            //number of bookings affected
+            Console.WriteLine($"{count} bookings were cancelled.");
+
+
+            //pilot assigned available again 
+            Pilot pilot = context.pilots
+                .FirstOrDefault(p => p.pilotId == flight.pilotId);
+
+            if (pilot != null)
+
+            {
+                pilot.isAvailable = true;
+            }
+
+
+            Console.WriteLine($" Flight number: {flight.flightId} has been cancelled from all passenger in this flight.");
+            }
         
 
 
+        
 
+
+        
 
         static void Main(string[] args)
         {
