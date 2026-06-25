@@ -467,6 +467,12 @@ namespace project01
 
             int count = 0;
 
+            // check have any booking for this flight
+            if (!bookings.Any())
+            {
+                Console.WriteLine("No bookings found for this flight.");
+            }
+
             //chenge status from Confirmed to Cancelled
             foreach (Booking b in bookings)
             {
