@@ -32,6 +32,8 @@ namespace project01
         public static void RegisterPassenger()
         {
             Console.WriteLine("\n=== Register New Passenger ===");
+            Console.WriteLine("=====================================");
+
 
             Console.Write("Enter Passenger name: ");
             string name = Console.ReadLine();
@@ -69,6 +71,9 @@ namespace project01
         public static void AddAircraft()
         {
             Console.WriteLine("\n=== Add an Aircraft ===");
+            Console.WriteLine("=====================================");
+
+
 
             Console.WriteLine("Enter Aircraft Model: ");
             string model = Console.ReadLine();
@@ -97,7 +102,7 @@ namespace project01
         public static void RegisterPilot()
         {
             Console.WriteLine("\n=== Register a pilot: ===");
-
+            Console.WriteLine("=====================================");
 
 
             Console.Write("Enter Pilot Name: ");
@@ -132,6 +137,8 @@ namespace project01
         {
 
             Console.WriteLine("\n=== View all flights ===");
+            Console.WriteLine("=====================================");
+
 
             foreach (Flight F in context.flights)
             {
@@ -158,6 +165,8 @@ namespace project01
         public static void ScheduleFlight()
         {
             Console.WriteLine("\n=== Add Schedule flights ===");
+            Console.WriteLine("=====================================");
+
 
             Console.WriteLine("Enter origin: ");
             string origin = Console.ReadLine();
@@ -268,6 +277,10 @@ namespace project01
 
         public static void BookFlight()
         {
+
+            Console.WriteLine("\n=== Book Flight ===");
+            Console.WriteLine("=====================================");
+
             Console.WriteLine("Enter Passenger ID:");
             int idPassenger = int.Parse(Console.ReadLine());
 
@@ -347,10 +360,10 @@ namespace project01
         ////              **** Cancel a Booking ****
         //// =======================================================
 
-
         public static void CancelBooking()
         {
             Console.WriteLine("\n=== Cancel Booking ===");
+            Console.WriteLine("=====================================");
 
 
             // Enter id for cancelled
@@ -390,6 +403,9 @@ namespace project01
 
         public static void DepartFlight()
         {
+            Console.WriteLine("\n=== Depart Flight ===");
+            Console.WriteLine("=====================================");
+
 
             //Enter flight id:
             Console.WriteLine("Enter flight id: ");
@@ -438,7 +454,7 @@ namespace project01
         public static void CancelFlight()
         {
             Console.WriteLine("\n=== Cancel Flight ===");
-
+            Console.WriteLine("=====================================");
 
             // show all flight
             Console.WriteLine("This all Flight: ");
@@ -506,6 +522,8 @@ namespace project01
         public static void PassengerBookingHistory()
         {
             Console.WriteLine("\n=== Passenger Booking History ===");
+            Console.WriteLine("============================================");
+
 
             // Enter passenger id:
             Console.WriteLine("Enter passenger id: ");
@@ -637,7 +655,7 @@ namespace project01
         }
 
             Console.WriteLine("Goodbye!");
-
+            
         }
     }
 }
